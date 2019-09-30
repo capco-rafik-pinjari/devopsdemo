@@ -48,15 +48,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User createUser(User user, Set<UserRole> userRoles) {
+		System.out.println("create user method..");
 		User localUser = userDao.findByUsername(user.getUsername());
-
+		System.out.println("findbyusername.."+localUser);
 		if (localUser != null) {
 			LOG.info("User with username {} already exist. Nothing will be done. ", user.getUsername());
 		} else {
 			String encryptedPassword = passwordEncoder.encode(user.getPassword());
 			user.setPassword(encryptedPassword);
-
+			System.out.println("encrypted password.."+encryptedPassword);
 			for (UserRole ur : userRoles) {
+				System.out.println("role fro user role"+ur.getRole());
 				roleDao.save(ur.getRole());
 			}
 
@@ -64,8 +66,9 @@ public class UserServiceImpl implements UserService {
 
 			user.setPrimaryAccount(accountService.createPrimaryAccount());
 			user.setSavingsAccount(accountService.createSavingsAccount());
-
+			System.out.println("before save method......");
 			localUser = userDao.save(user);
+			System.out.println("after save method......");
 		}
 
 		return localUser;
