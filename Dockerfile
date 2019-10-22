@@ -1,5 +1,4 @@
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} userFront-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/userFront-0.0.1-SNAPSHOT.jar"]
+FROM openjdk:8
+ADD target/userFront-0.0.1-SNAPSHOT.jar
+ENTRYPOINT["java","-jar","./userfront.jar"]
+EXPOSE 8084
